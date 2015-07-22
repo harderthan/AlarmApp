@@ -14,6 +14,7 @@ import android.text.NoCopySpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -26,7 +27,7 @@ import java.util.ArrayList;
 /**
  * Created by daeguunivmac26 on 2015. 7. 7..
  */
-public class custom_Activity extends Activity {
+public class custom_Activity extends ListActivity {
 
     ArrayList<Alarm> rows = new ArrayList<Alarm>();
 
@@ -35,7 +36,7 @@ public class custom_Activity extends Activity {
     private final static int EDIT_CODE = 1;
 
 
-    private DatabaseHelper mOpenHelper;
+        private DatabaseHelper mOpenHelper;
 
     class MyUserAdapter extends ArrayAdapter<Alarm> {  //리스트를 표현하기 위한 ArrayAdapter
 
@@ -95,10 +96,10 @@ public class custom_Activity extends Activity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case 0:
+            case 0:     // NewAlarmActivity 시작
                 startActivityForResult( new Intent(this, NewAlarmActivity.class), New_Code);
                 return true;
-            case 1:
+            case 1:     // 종료
                 finish();
                 return  true;
         }
@@ -109,9 +110,21 @@ public class custom_Activity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
            if(Activity.RESULT_OK == resultCode){
-               if (requestCode == EDIT_CODE) {
 
+               Bundle extra = data.getExtras();
+               Alarm alarm = new Alarm(extra.getInt(DatabaseHelper._ID), extra.getString(DatabaseHelper.TITLE),
+                       extra.getInt(DatabaseHelper.YEAR), extra.getInt(DatabaseHelper.MONTH), extra.getInt(DatabaseHelper.DAY),
+                       extra.getInt(DatabaseHelper.HOUR), extra.getInt(DatabaseHelper.MINUTE));
+
+               if (requestCode == EDIT_CODE) {
+                   mOpenHelper.update(alarm);
+               } else {
+                   mOpenHelper.insert(alarm);
                }
+
+               mOpenHelper.retriveData(rows);
+
+
            }
     }
 
@@ -121,8 +134,9 @@ public class custom_Activity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //데이터베이스에 적재
         mOpenHelper = new DatabaseHelper(this);
-       // mOpenHelper.retriveData(rows);
+        mOpenHelper.retriveData(rows);
 
         ListView listView = (ListView)findViewById(R.id.list);
 
@@ -135,6 +149,7 @@ public class custom_Activity extends Activity {
         AdapterView.OnItemClickListener listItemClick = new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                 Alarm user = rows.get(position);
 
                 Toast.makeText(getBaseContext(), user.getAlarm(), Toast.LENGTH_SHORT).show();

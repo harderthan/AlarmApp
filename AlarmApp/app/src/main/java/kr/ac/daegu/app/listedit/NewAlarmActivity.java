@@ -29,7 +29,7 @@ public class NewAlarmActivity  extends Activity {
         setContentView(R.layout.newalarm_layout);
 
         mOpenHelper = new DatabaseHelper(this);
-       // mOpenHelper.retriveData(rows);
+
 
         Button btn_ok = (Button) findViewById(R.id.btn_ok);
         Button btn_cancel = (Button) findViewById(R.id.btn_cancel);
@@ -41,6 +41,7 @@ public class NewAlarmActivity  extends Activity {
         final EditText editText5 = (EditText) findViewById(R.id.editText5);
         final EditText editText6 = (EditText) findViewById(R.id.editText6);
 
+                // 수정 요청 여부
         Intent data = getIntent();
         if(data != null) {
             TextView txtTop = (TextView) findViewById(R.id.txtLog);
@@ -79,32 +80,6 @@ public class NewAlarmActivity  extends Activity {
                 finish();
             }
         });
-
-
-/*
-
-        @Override
-        protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-            super.onActivityResult(requestCode, resultCode, data);
-
-            if (Activity.RESULT_OK == resultCode) {
-                Bundle extra = data.getExtras();
-                Alarm alarm = new Alarm(extra.getInt(DatabaseHelper._ID), extra.getString(DatabaseHelper.TITLE),
-                        extra.getInt(DatabaseHelper.YEAR), extra.getInt(DatabaseHelper.MONTH), extra.getInt(DatabaseHelper.DAY),
-                        extra.getInt(DatabaseHelper.HOUR), extra.getInt(DatabaseHelper.MINUTE));
-
-                if (requestCode == -1 ) {
-                    mOpenHelper.update(alarm);
-                } else {
-                    mOpenHelper.insert(alarm);
-                }
-                mOpenHelper.retriveData(rows);
-
-                }
-            }
-        }
-
-*/
 
 
     }
