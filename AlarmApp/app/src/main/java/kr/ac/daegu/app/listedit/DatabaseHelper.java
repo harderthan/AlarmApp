@@ -16,7 +16,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
     public static String DATABASE_TABLE = "alarm_table";
 
     public static int DATABASE_VERSION = 1;
-    public static final String _ID = "id";
+    public static final String _ID = "_id";
     public static final String TITLE = "title";
     public static final String YEAR = "year";
     public static final String MONTH = "month";
@@ -31,16 +31,17 @@ class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE " + DATABASE_TABLE + "(" + _ID + "INTEGER PRIMARY KEY,"
-            +TITLE + " VARCHAR," + YEAR + "VARCHAR" + MONTH + "VARCHAR" + DAY + "VARCHAR" + HOUR
-                + MINUTE + "VARCHAR" +");" );
+        db.execSQL("CREATE TABLE " + DATABASE_TABLE + " (" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+            +TITLE + " VARCHAR, " + YEAR + " VARCHAR, " + MONTH + " VARCHAR, " + DAY + " VARCHAR, " + HOUR + " VARCHAR, "
+                + MINUTE + " VARCHAR" +");" );
 
 
         String insertMe = "INSERT INTO " + DATABASE_TABLE + "(" + TITLE + "," + YEAR + "," + MONTH
                 + "," + DAY + "," + HOUR + "," + MINUTE +")" + "VALUES";
 
 
-        db.execSQL(insertMe + "('샘플','2015','10','10','12','00');");
+        db.execSQL(insertMe + "('샘플','2015','10','10','12','00')");
+
     }
 
     @Override
@@ -51,7 +52,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
 
     public void retriveData(ArrayList<Alarm> items){
         SQLiteDatabase db = getReadableDatabase();
-        Cursor c = db.query(DATABASE_TABLE, new String[] { _ID, TITLE, YEAR, MONTH, DAY, HOUR, MINUTE,},
+        Cursor c = db.query(DATABASE_TABLE, new String[]{_ID, TITLE, YEAR, MONTH, DAY, HOUR, MINUTE,},
                 null, null, null, null, null);
         try {
             items.clear();
@@ -88,7 +89,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getReadableDatabase();
         Cursor c = db.query(DATABASE_TABLE,
                 new String[] { _ID, TITLE, YEAR, MONTH, DAY, HOUR, MINUTE },
-                _ID + "=?", new String[] {id+""}, null, null, null);
+                "_ID=?", new String[] {id+""}, null, null, null);
 
         if( c.moveToFirst() ) {
             alarm = getalarm(c);

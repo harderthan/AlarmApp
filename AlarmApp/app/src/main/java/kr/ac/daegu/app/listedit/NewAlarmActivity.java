@@ -34,12 +34,12 @@ public class NewAlarmActivity  extends Activity {
         Button btn_ok = (Button) findViewById(R.id.btn_ok);
         Button btn_cancel = (Button) findViewById(R.id.btn_cancel);
 
-        EditText editText1 = (EditText) findViewById(R.id.editText1);
-        EditText editText2 = (EditText) findViewById(R.id.editText2);
-        EditText editText3 = (EditText) findViewById(R.id.editText3);
-        EditText editText4 = (EditText) findViewById(R.id.editText4);
-        EditText editText5 = (EditText) findViewById(R.id.editText5);
-        EditText editText6 = (EditText) findViewById(R.id.editText6);
+        final EditText editText1 = (EditText) findViewById(R.id.editText1);
+        final EditText editText2 = (EditText) findViewById(R.id.editText2);
+        final EditText editText3 = (EditText) findViewById(R.id.editText3);
+        final EditText editText4 = (EditText) findViewById(R.id.editText4);
+        final EditText editText5 = (EditText) findViewById(R.id.editText5);
+        final EditText editText6 = (EditText) findViewById(R.id.editText6);
 
         Intent data = getIntent();
         if(data != null) {
@@ -56,21 +56,21 @@ public class NewAlarmActivity  extends Activity {
 
             }
         }
-//
-//        btn_ok.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent data = getIntent();
-//                data.putExtra(DatabaseHelper.TITLE, editText1.getText().toString());
-//                data.putExtra(DatabaseHelper.YEAR, editText2.getText().toString());
-//                data.putExtra(DatabaseHelper.MONTH, editText3.getText().toString());
-//                data.putExtra(DatabaseHelper.DAY, editText4.getText().toString());
-//                data.putExtra(DatabaseHelper.HOUR, editText5.getText().toString());
-//                data.putExtra(DatabaseHelper.MINUTE, editText6.getText().toString());
-//                setResult(RESULT_OK, data);
-//                finish();
-//            }
-//        });
+
+        btn_ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent data = getIntent();
+                data.putExtra(DatabaseHelper.TITLE, editText1.getText().toString());
+                data.putExtra(DatabaseHelper.YEAR, editText2.getText().toString());
+                data.putExtra(DatabaseHelper.MONTH, editText3.getText().toString());
+                data.putExtra(DatabaseHelper.DAY, editText4.getText().toString());
+                data.putExtra(DatabaseHelper.HOUR, editText5.getText().toString());
+                data.putExtra(DatabaseHelper.MINUTE, editText6.getText().toString());
+                setResult(RESULT_OK, data);
+                finish();
+            }
+        });
 
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
