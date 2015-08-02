@@ -16,7 +16,7 @@ import java.util.ArrayList;
  */
 public class NewAlarmActivity  extends Activity {
 
-    EditText year,month,day,hour,minute;
+
     DatabaseHelper mOpenHelper;
    // ArrayList<Alarm> rows = new ArrayList<Alarm>();
 
@@ -42,18 +42,19 @@ public class NewAlarmActivity  extends Activity {
         final EditText editText6 = (EditText) findViewById(R.id.editText6);
 
                 // 수정 요청 여부
-        Intent data = getIntent();
+            Intent data = getIntent();
         if(data != null) {
             TextView txtTop = (TextView) findViewById(R.id.txtLog);
-            txtTop.setText("");
+            txtTop.setText("edit alarm");
             item_id = data.getIntExtra( DatabaseHelper._ID, -1);
             Alarm alarm = mOpenHelper.retrive(item_id);
             if (alarm != null) {
-                year.setText(alarm.year);
-                month.setText(alarm.month);
-                day.setText(alarm.day);
-                hour.setText(alarm.hour);
-                minute.setText(alarm.minute);
+                editText1.setText(alarm.title);
+                editText2.setText(""+alarm.year);
+                editText3.setText(alarm.month+"");
+                editText4.setText(alarm.day+"");
+                editText5.setText(alarm.hour+"");
+                editText6.setText(alarm.minute+"");
 
             }
         }

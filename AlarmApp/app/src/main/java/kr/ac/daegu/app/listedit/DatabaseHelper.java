@@ -104,8 +104,8 @@ class DatabaseHelper extends SQLiteOpenHelper {
                 + "(" + TITLE + "," + YEAR + "," + MONTH + "," + DAY + ","
                 + HOUR + "," + MINUTE + ")" + "VALUES ";
         db.execSQL(insertMe + "('" + alarm.title +"',"
-                + "'" + alarm.year + "'," + "'" + alarm.month + "'," + "'" + alarm.day
-                + alarm.hour + "'" + alarm.minute + "');");
+                + "'" + alarm.year + "'," + "'" + alarm.month + "'," + "'" + alarm.day + "',"
+                +"'" + alarm.hour + "'," + "'" + alarm.minute + "');");
 
     }
 
@@ -128,6 +128,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
                 + " WHERE _id=" + id;
         db.execSQL(delete);
     }
+
 
 
 

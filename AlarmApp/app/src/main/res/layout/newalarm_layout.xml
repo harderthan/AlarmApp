@@ -80,6 +80,11 @@
                 android:id="@+id/btn_cancel"
                 android:layout_weight="1" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtLog"
+                android:hint="ID값인것같은데 뭔지" />
         </LinearLayout>
 
     </LinearLayout>

@@ -1,6 +1,7 @@
 package kr.ac.daegu.app.listedit;
 
 import android.app.ListActivity;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -29,30 +30,43 @@ import java.util.ArrayList;
  */
 public class custom_Activity extends ListActivity {
 
-    ArrayList<Alarm> rows = new ArrayList<Alarm>();
+
 
 
     private final static int New_Code = 0;
     private final static int EDIT_CODE = 1;
-
-
+    private Context mContext;
+    MyListAdapter mAdapter;
         private DatabaseHelper mOpenHelper;
 
-    class MyUserAdapter extends ArrayAdapter<Alarm> {  //리스트를 표현하기 위한 ArrayAdapter
+    ArrayList<Alarm> rows = new ArrayList<Alarm>();
 
-        public MyUserAdapter(ArrayList<Alarm> objects){
-            super(getBaseContext(), 0, objects);
-            rows = objects;
+    class MyListAdapter extends ArrayAdapter<Alarm> {  //리스트를 표현하기 위한 ArrayAdapter
+
+        ArrayList<Alarm> rows;
+
+
+        public MyListAdapter(Context context, ArrayList<Alarm> list) {
+            super(context, R.layout.alarm_main, list);
+            mContext = context;
+            rows = list;
         }
 
         @Override
-        public int getCount(){ return rows.size();}
+        public long getItemId(int position) {
+            return super.getItemId(position);
+        }
+
+        @Override
+        public int getCount() {
+            return super.getCount();
+        }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent){
             View item = null;
             if(convertView == null) {
-                LayoutInflater inflater = LayoutInflater.from(getBaseContext());
+                LayoutInflater inflater = LayoutInflater.from(mContext);
                 item = inflater.inflate(R.layout.alarm_main, null);
 
             }else{
@@ -65,7 +79,7 @@ public class custom_Activity extends ListActivity {
             TextView vHour = (TextView) item.findViewById(R.id.textView5);
             TextView vMinute = (TextView) item.findViewById(R.id.textView6);
 
-            Alarm user = getItem(position);
+            Alarm user = rows.get(position);
 
             vTitle.setText(user.title);
             vYear.setText("" + user.year);
@@ -79,7 +93,7 @@ public class custom_Activity extends ListActivity {
         }
 
 
-    }
+    }       // end Activity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -109,8 +123,8 @@ public class custom_Activity extends ListActivity {
        @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-           if(Activity.RESULT_OK == resultCode){
 
+           if(Activity.RESULT_OK == resultCode){
                Bundle extra = data.getExtras();
                Alarm alarm = new Alarm(extra.getInt(DatabaseHelper._ID), extra.getString(DatabaseHelper.TITLE),
                        extra.getInt(DatabaseHelper.YEAR), extra.getInt(DatabaseHelper.MONTH), extra.getInt(DatabaseHelper.DAY),
@@ -124,7 +138,7 @@ public class custom_Activity extends ListActivity {
 
                mOpenHelper.retriveData(rows);
 
-
+               mAdapter.notifyDataSetChanged();
            }
     }
 
@@ -138,86 +152,21 @@ public class custom_Activity extends ListActivity {
         mOpenHelper = new DatabaseHelper(this);
         mOpenHelper.retriveData(rows);
 
-        ListView listView = (ListView)findViewById(R.id.list);
+        mAdapter = new MyListAdapter(this, rows);
+        setListAdapter(mAdapter);
 
-        ArrayList<Alarm> data = retrieveData();
-
-        MyUserAdapter adapter = new MyUserAdapter(data);
-
-        listView.setAdapter(adapter);
-
-        AdapterView.OnItemClickListener listItemClick = new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                Alarm user = rows.get(position);
-
-                Toast.makeText(getBaseContext(), user.getAlarm(), Toast.LENGTH_SHORT).show();
-
-            }
-        };
-
-        listView.setOnItemClickListener(listItemClick);
-
+       getListView().setOnItemClickListener(itemClickListener);
 
     }
 
-    @Override
-    protected void onResume() {super.onResume(); }
 
-    public ArrayList<Alarm> retrieveData(){
-        ArrayList<Alarm> list = new ArrayList<Alarm>();
-
-        list.add(
-                new Alarm(
-                    1, "첫번째", 3, 4, 5, 6, 7
-                )
-        );
-        list.add(
-                new Alarm(
-                    1, "두번째", 3, 4, 5, 6, 7
-                )
-        );
-        list.add(
-                new Alarm(
-                    1, "세번째", 3, 4, 5, 6, 7
-                )
-        );
-        list.add(
-                new Alarm(
-                    1, "네번째", 3, 4, 5, 6, 7
-                )
-        );
-        list.add(
-                new Alarm(
-                    1, "다섯번째", 3, 4, 5, 6, 7
-                )
-        );
-       list.add(
-                new Alarm(
-                    1, "여섯번째", 3, 4, 5, 6, 7
-                )
-        );
-       list.add(
-                new Alarm(
-                    1, "일곱번째", 3, 4, 5, 6, 7
-                )
-        );
-       list.add(
-                new Alarm(
-                    1, "여덟번째", 3, 4, 5, 6, 7
-                )
-        );
-       list.add(
-                new Alarm(
-                    1, "아홉번째", 3, 4, 5, 6, 7
-                )
-        );
-
-
-
-
-        return list;
-    }
+    AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Intent intent = new Intent( mContext, NewAlarmActivity.class);
+            intent.putExtra(DatabaseHelper._ID, (int)id + 1);
+            startActivityForResult( intent, EDIT_CODE);
+        }
+    };
 
 }
