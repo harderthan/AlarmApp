@@ -127,7 +127,7 @@ public class custom_Activity extends ListActivity {
            if(Activity.RESULT_OK == resultCode){
                Bundle extra = data.getExtras();
                Alarm alarm = new Alarm(extra.getInt(DatabaseHelper._ID), extra.getString(DatabaseHelper.TITLE),
-                       extra.getInt(DatabaseHelper.YEAR), extra.getInt(DatabaseHelper.MONTH), extra.getInt(DatabaseHelper.DAY),
+                       extra.getString(DatabaseHelper.YEAR), extra.getInt(DatabaseHelper.MONTH), extra.getInt(DatabaseHelper.DAY),
                        extra.getInt(DatabaseHelper.HOUR), extra.getInt(DatabaseHelper.MINUTE));
 
                if (requestCode == EDIT_CODE) {

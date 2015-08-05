@@ -73,11 +73,11 @@ class DatabaseHelper extends SQLiteOpenHelper {
     private Alarm getalarm(Cursor c) {
         int id = c.getInt(c.getColumnIndex(_ID));
         String title = c.getString(c.getColumnIndex(TITLE));
-        int year = c.getInt(c.getColumnIndex(YEAR));
-        int month = c.getInt(c.getColumnIndex(MONTH));
-        int day = c.getInt(c.getColumnIndex(DAY));
-        int hour = c.getInt(c.getColumnIndex(HOUR));
-        int minute = c.getInt(c.getColumnIndex(MINUTE));
+        String year = c.getString(c.getColumnIndex(YEAR));
+        String month = c.getString(c.getColumnIndex(MONTH));
+        String day = c.getString(c.getColumnIndex(DAY));
+        String hour = c.getString(c.getColumnIndex(HOUR));
+        String minute = c.getString(c.getColumnIndex(MINUTE));
 
 
         Alarm alarm = new Alarm( id, title, year, month, day, hour, minute);
@@ -139,16 +139,16 @@ class DatabaseHelper extends SQLiteOpenHelper {
 class Alarm {
     int _ID;
     String title;
-    int year;
-    int month;
-    int day;
-    int hour;
-    int minute;
+    String year;
+    String month;
+    String day;
+    String hour;
+    String minute;
 
     String getAlarm(){
         return title;
     }
-    public Alarm(int id, String title, int year, int month, int day, int hour, int minute){
+    public Alarm(int id, String title, String year, String month, String day, String hour, String minute){
         this._ID = id;
         this.title = title;
         this.year = year;

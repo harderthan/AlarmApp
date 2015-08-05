@@ -50,7 +50,7 @@ public class NewAlarmActivity  extends Activity {
             Alarm alarm = mOpenHelper.retrive(item_id);
             if (alarm != null) {
                 editText1.setText(alarm.title);
-                editText2.setText(""+alarm.year);
+                editText2.setText(alarm.year+"");
                 editText3.setText(alarm.month+"");
                 editText4.setText(alarm.day+"");
                 editText5.setText(alarm.hour+"");
